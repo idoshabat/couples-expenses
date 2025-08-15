@@ -2,12 +2,12 @@ import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/app/lib/prisma";
 
 export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } } // correct typing
+  req: Request,
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const id = Number(params.id);
+  const { id } = await params; // ✅ מחכים ל־params
   const category = await prisma.category.findUnique({
-    where: { id },
+    where: { id : Number(id) },
     include: { household: true },
   });
 
