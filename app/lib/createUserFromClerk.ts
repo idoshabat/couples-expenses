@@ -6,10 +6,10 @@ export async function createUserFromClerk(clerkUserId: string) {
   const clerkUser = await client.users.getUser(clerkUserId);
 
   return prisma.user.upsert({
-    where: { id: parseInt(clerkUser.id) },
+    where: { id: clerkUser.id },
     update: {},
     create: {
-      id: parseInt(clerkUser.id),
+      id: clerkUser.id,
       email: clerkUser.emailAddresses[0]?.emailAddress,
       name: clerkUser.firstName || clerkUser.fullName || "No Name",
     },
