@@ -2,7 +2,7 @@ import { Webhook } from "svix";
 import { headers } from "next/headers";
 import { NextResponse } from "next/server";
 
-interface ClerkEvent<T = unknown> {
+interface ClerkEvent<T = unknown> { 
   type: string;
   data: T;
 }
