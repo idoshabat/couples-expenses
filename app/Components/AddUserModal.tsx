@@ -30,7 +30,7 @@ export default function AddUserModal({
                     />
                 </div>
                 <div className="mb-4">
-                    <label className="block text-white mb-2" htmlFor="email">דוא"ל:</label>
+                    <label className="block text-white mb-2" htmlFor="email">דוא&apos;ל:</label>
                     <input
                         type="email"
                         id="email"

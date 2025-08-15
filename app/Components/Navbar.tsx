@@ -1,14 +1,15 @@
 import { SignInButton, SignUpButton, SignedIn, SignedOut, UserButton } from '@clerk/nextjs';
+import Link from 'next/link';
 
 export default function Navbar() {
     return (
         <div className="flex items-center justify-between p-4 bg-[#cadefa] w-full text-black" dir="rtl">
             <a href="/" className="text-3xl font-bold ml-16 hover:text-gray-600">הבית של עידו ורעות❤️🏠</a>
             <nav className="flex ml-auto space-x-reverse space-x-8">
-                <a href="/users" className="hover:underline">משתמשים</a>
-                <a href="/expenses" className="hover:underline">הוצאות</a>
-                <a href="/categories" className="hover:underline">קטגוריות</a>
-                <a href="/households" className="hover:underline">משקי בית</a>
+                <Link href="/users" className="hover:underline">משתמשים</Link>
+                <Link href="/expenses" className="hover:underline">הוצאות</Link>
+                <Link href="/categories" className="hover:underline">קטגוריות</Link>
+                <Link href="/households" className="hover:underline">משקי בית</Link>
             </nav>
 
             <SignedOut>
