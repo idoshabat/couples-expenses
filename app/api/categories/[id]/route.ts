@@ -7,7 +7,7 @@ export async function GET(
 ) {
   const { id } = await params; // ✅ מחכים ל־params
   const category = await prisma.category.findUnique({
-    where: { id : Number(id) },
+    where: { id: Number(id) },
     include: { household: true },
   });
 
@@ -19,21 +19,23 @@ export async function GET(
 }
 
 export async function PUT(
-  req: NextRequest,
-  { params }: { params: { id: string } }
+  req: Request,
+  { params }: { params: Promise<{ id: string }> }
 ) {
+  const { id } = await params; // ✅ מחכים ל־params
   const { name } = await req.json();
   const updated = await prisma.category.update({
-    where: { id: Number(params.id) },
+    where: { id: Number(id) },
     data: { name },
   });
   return NextResponse.json(updated);
 }
 
 export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { id: string } }
-) {
-  await prisma.category.delete({ where: { id: Number(params.id) } });
+  req: Request,
+  { params }: { params: Promise<{ id: string }> }
+)  {
+  const { id } = await params; // ✅ מחכים ל־params
+  await prisma.category.delete({ where: { id: Number(id) } });
   return NextResponse.json({ message: "Deleted" });
 }
