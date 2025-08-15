@@ -1,0 +1,72 @@
+datasource db {
+  provider = "sqlite" 
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id            String                @id             // Clerk user ID
+  email         String?               @unique
+  name          String
+  memberships   Membership[]
+  expensesPaid  Expense[]             @relation("ExpensePayer")
+  expenseShares ExpenseParticipant[]
+  createdAt     DateTime              @default(now())
+}
+
+model Household {
+  id          Int            @id @default(autoincrement())
+  name        String
+  memberships Membership[]
+  categories  Category[]
+  expenses    Expense[]
+  createdAt   DateTime       @default(now())
+}
+
+model Membership {
+  userId      String
+  householdId Int
+  role        String @default("member")
+  user    User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  household   Household  @relation(fields: [householdId], references: [id])
+
+  @@id([userId, householdId])
+}
+
+model Category {
+  id          Int        @id @default(autoincrement())
+  name        String
+  householdId Int
+  household   Household  @relation(fields: [householdId], references: [id])
+  expenses    Expense[]
+  @@unique([householdId, name])
+}
+
+model Expense {
+  id           Int                 @id @default(autoincrement())
+  householdId  Int
+  payerId      String              // Changed from Int to String
+  categoryId   Int?
+  amount       Float
+  currency     String              @default("ILS")
+  date         DateTime            @default(now())
+  note         String?
+  household    Household           @relation(fields: [householdId], references: [id])
+  payer        User                @relation("ExpensePayer", fields: [payerId], references: [id])
+  category     Category?           @relation(fields: [categoryId], references: [id])
+  participants ExpenseParticipant[]
+  createdAt    DateTime            @default(now())
+}
+
+model ExpenseParticipant {
+  expenseId Int
+  userId    String                 // Changed from Int to String
+  amount    Float
+  expense   Expense @relation(fields: [expenseId], references: [id])
+  user      User    @relation(fields: [userId], references: [id])
+
+  @@id([expenseId, userId])
+}
