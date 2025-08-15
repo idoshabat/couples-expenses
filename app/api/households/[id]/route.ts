@@ -3,10 +3,11 @@ import { prisma } from "@/app/lib/prisma";
 
 // GET household by id
 export async function GET(
-  req: NextRequest,
-  { params }: { params: { id: string } }
+  req: Request,
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const householdId = Number(params.id);
+  const { id } = await params; // Wait for params to resolve
+  const householdId = Number(id);
   const household = await prisma.household.findUnique({
     where: { id: householdId },
     include: {
@@ -24,10 +25,11 @@ export async function GET(
 
 // UPDATE household by id
 export async function PUT(
-  req: NextRequest,
-  { params }: { params: { id: string } }
+  req: Request,
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const householdId = Number(params.id);
+  const { id } = await params; // Wait for params to resolve
+  const householdId = Number(id);
   const { name } = await req.json();
 
   const updated = await prisma.household.update({
@@ -40,10 +42,11 @@ export async function PUT(
 
 // DELETE household by id
 export async function DELETE(
-  req: NextRequest,
-  { params }: { params: { id: string } }
+  req: Request,
+  { params }: { params: Promise<{ id: string }> }
 ) {
-  const householdId = Number(params.id);
+  const { id } = await params; // Wait for params to resolve
+  const householdId = Number(id);
 
   await prisma.household.delete({
     where: { id: householdId },

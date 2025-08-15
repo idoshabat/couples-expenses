@@ -4,13 +4,14 @@ import { prisma } from "@/app/lib/prisma";
 // GET membership by userId and householdId
 export async function GET(
   req: NextRequest,
-  { params }: { params: { userId: string; householdId: string } }
+  { params } : { params : Promise<{ userId: string; householdId: string }> }
 ) {
+  const { userId, householdId } = await params; // Wait for params to resolve
   const membership = await prisma.membership.findUnique({
     where: {
       userId_householdId: {
-        userId: params.userId,
-        householdId: Number(params.householdId),
+        userId: userId,
+        householdId: Number(householdId),
       },
     },
     include: { user: true, household: true },
@@ -25,15 +26,16 @@ export async function GET(
 // UPDATE membership role
 export async function PUT(
   req: NextRequest,
-  { params }: { params: { userId: string; householdId: string } }
+  { params } : { params : Promise<{ userId: string; householdId: string }> }
 ) {
+  const { userId, householdId } = await params; // Wait for params to resolve
   const { role } = await req.json();
 
   const updated = await prisma.membership.update({
     where: {
       userId_householdId: {
-        userId: params.userId,
-        householdId: Number(params.householdId),
+        userId: userId,
+        householdId: Number(householdId),
       },
     },
     data: { role },
@@ -45,13 +47,14 @@ export async function PUT(
 // DELETE membership
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: { userId: string; householdId: string } }
+  { params } : { params : Promise<{ userId: string; householdId: string }> }
 ) {
+  const { userId, householdId } = await params; // Wait for params to resolve
   await prisma.membership.delete({
     where: {
       userId_householdId: {
-        userId: params.userId,
-        householdId: Number(params.householdId),
+        userId: userId,
+        householdId: Number(householdId),
       },
     },
   });
