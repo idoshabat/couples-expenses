@@ -4,7 +4,7 @@ import Link from 'next/link';
 export default function Navbar() {
     return (
         <div className="flex items-center justify-between p-4 bg-[#cadefa] w-full text-black" dir="rtl">
-            <a href="/" className="text-3xl font-bold ml-16 hover:text-gray-600">הבית של עידו ורעות❤️🏠</a>
+            <Link href="/" className="text-3xl font-bold ml-16 hover:text-gray-600">הבית של עידו ורעות❤️🏠</Link>
             <nav className="flex ml-auto space-x-reverse space-x-8">
                 <Link href="/users" className="hover:underline">משתמשים</Link>
                 <Link href="/expenses" className="hover:underline">הוצאות</Link>
